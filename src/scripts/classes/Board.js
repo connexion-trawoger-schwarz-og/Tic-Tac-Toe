@@ -26,6 +26,7 @@ class Board {
         this.player2 = document.getElementById("player-2")
         this.totalWinsX = 0;
         this.totalWinsO = 0;
+        this.start = false;
     }
 
     /**
@@ -51,6 +52,15 @@ class Board {
      */
     setDifficulty(mode) {
         this.difficulty = mode;
+    }
+
+    /**
+     * Setter-Methode, welche die property start auf true setzt.
+     * @param {boolean} - true: das Spiel kann gespielt werden, d.h. es kann auf die Felder im Spielfeld geklickt werden.
+     * false: das Spiel kann nicht gespielt werden, d.h. es kann auch kein Feld im Spielfeld geklickt werden. 
+     */
+    setStart(tureOrFalse) {
+        this.start = tureOrFalse;
     }
 
     /**

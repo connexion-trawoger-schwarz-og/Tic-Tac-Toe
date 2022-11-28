@@ -56,6 +56,7 @@ computerButton.addEventListener("click", () => {
 // setzt die Total Wins aller Spieler auf 0 zurück und setzt das gesamte Spiel auf Anfang zurück,
 // schleißt das Menu-Overlay und stoppt die Winanimation.
 easy.addEventListener("click", () => {
+    board.setStart(true);
     board.setComputer(true);
     board.setDifficulty("easy");
     board.resetTotalWins();
@@ -68,6 +69,7 @@ easy.addEventListener("click", () => {
 // setzt die Total Wins aller Spieler auf 0 zurück und setzt das gesamte Spiel auf Anfang zurück,
 // schleißt das Menu-Overlay und stoppt die Winanimation.
 normal.addEventListener("click", () => {
+    board.setStart(true);
     board.setComputer(true);
     board.setDifficulty("normal");
     board.resetTotalWins();
@@ -80,6 +82,7 @@ normal.addEventListener("click", () => {
 // setzt die Total Wins aller Spieler auf 0 zurück, setzt das gesamte Spiel auf Anfang zurück,
 // schleißt das Menu-Overlay und stoppt die Winanimation.
 godlike.addEventListener("click", () => {
+    board.setStart(true);
     board.setComputer(true);
     board.setDifficulty("godlike");
     board.resetTotalWins();
@@ -91,6 +94,7 @@ godlike.addEventListener("click", () => {
 // Dieser Button setzt den computer auf false, setzt die Total Wins aller Spieler auf 0 zurück,
 // setzt das gesamte Spiel auf Anfang zurück, schließt das Menu-Overlay und stoppt die Winanimation.
 human.addEventListener("click", () => {
+    board.setStart(true);
     board.setComputer(false);
     board.resetTotalWins();
     board.resetGame();
@@ -106,10 +110,11 @@ human.addEventListener("click", () => {
 board.spaces.forEach(space => {
     space.addEventListener("click", (event) => {
         
-        // Verhindern, dass auf ein Feld gesetzt werden kann, das bereits belegt ist bzw. wenn ein Gewinner feststeht
+        // Verhindern, dass auf ein Feld gesetzt werden kann: 
         if (space.innerHTML === "X" || 
-            space.innerHTML === "O" ||
-            [1, 2].includes(gameResult.getGameResult(board._board))
+            space.innerHTML === "O" ||                              // wenn das Feld bereits besetzt ist
+            board.start === false   ||                              // der Spieler noch nicht zwischen Computer und Mensch als Gegner gewählt hat
+            [1, 2].includes(gameResult.getGameResult(board._board)) // ein Gewinner feststeht
             ) return;
 
         // Computer als Gegner:
