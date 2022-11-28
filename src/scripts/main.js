@@ -113,9 +113,13 @@ board.spaces.forEach(space => {
         // Verhindern, dass auf ein Feld gesetzt werden kann: 
         if (space.innerHTML === "X" || 
             space.innerHTML === "O" ||                              // wenn das Feld bereits besetzt ist
-            board.start === false   ||                              // der Spieler noch nicht zwischen Computer und Mensch als Gegner gewählt hat
-            [1, 2].includes(gameResult.getGameResult(board._board)) // ein Gewinner feststeht
-            ) return;
+            [1, 2].includes(gameResult.getGameResult(board._board)) // oder wenn ein Gewinner feststeht
+            ) return
+        // Wenn der Spieler keinen Gegner gewählt hat, wird beim Klick auf ein Feld das Menü wieder geöffnet
+        else if (board.start === false) {
+            overlay.removeAttribute("style");
+            difficulty.style.visibility = "hidden";
+        }
 
         // Computer als Gegner:
         // Spieler X beginnt und setzt seinen Zug. Dieser Wird in die Ergebnismatrix eingetragen.
@@ -151,6 +155,14 @@ board.spaces.forEach(space => {
         if (winner !== -1) {
             board.displayGameResult(winner);
             board.displayTotalWins(winner);
+        }
+
+        // Falls das Spiel noch nicht begonnen hat, weil der Spieler noch keinen Gegner gewählt hat,
+        // wird das Symbol wieder entfernt.
+        if (board.start === false) {
+            space.innerHTML = "";
+            board.resetTotalWins();
+            board.resetGame();
         }
     })
 });
