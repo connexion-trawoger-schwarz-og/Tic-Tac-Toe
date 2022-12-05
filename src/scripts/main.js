@@ -13,7 +13,6 @@ let winner = -1;
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * their export is handled at the end of the file
  */
-// const board = new Board();
 const board = new Board();
 const gameResult = new GameResult();
 const randomColorAnimation = new RandomColorAnimation();
