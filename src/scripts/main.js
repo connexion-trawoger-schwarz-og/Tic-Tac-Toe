@@ -1,4 +1,9 @@
 "use strict";
+import Board from "./classes/Board.js";
+import GameResult from "./classes/GameResult.js";
+import Computer from "./classes/Computer.js";
+import RandomColorAnimation from "./classes/RandomColorAnimation.js";
+
 
 let winner = -1;
 
@@ -183,3 +188,5 @@ newGame.addEventListener("click", () => {
     overlay.removeAttribute("style");
     difficulty.style.visibility = "hidden";
 });
+
+export {board, gameResult, computer, randomColorAnimation};

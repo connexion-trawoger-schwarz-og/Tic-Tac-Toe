@@ -1,8 +1,9 @@
 "use strict";
+import {board, gameResult } from "../main.js";
 /**
  * Klasse stellt alle Methoden zur Verfügung, die für den Computer-Gegner benötigt werden.
  */
-class Computer {
+export default class Computer {
 
     /**
      * Diese Methode bestimmt alle unbestzten Felder des Spielfeldes.
@@ -45,9 +46,9 @@ class Computer {
         
         // Sammelt alle Zeilen, Spalten und Reihen der Ergebnismatrix in einem Objekt.
         let allLines = {
-            "row": GameResult.get_rows(board), 
-            "column": GameResult.get_columns(board),
-            "diagonal": GameResult.get_diagonals(board)
+            "row": gameResult.get_rows(board), 
+            "column": gameResult.get_columns(board),
+            "diagonal": gameResult.get_diagonals(board)
         };
 
         let collection = [];

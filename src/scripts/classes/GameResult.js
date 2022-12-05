@@ -2,7 +2,7 @@
 /**
  * Die Klasse stellt alle Methoden zur Ermittlung des aktuellen Spielstandes zur Verfügung
  */
-class GameResult {
+export default class GameResult {
 
     /**
      * Der Konstruktor erstellt beim Instanziieren der Klasse GameResult das Array winningLine.
@@ -46,9 +46,9 @@ class GameResult {
      * Die Zahl 0 wenn ein Unentschieden vorliegt.
      */
     _determine_winner(board) {
-        let rows = GameResult.get_rows(board);
-        let cols = GameResult.get_columns(board);
-        let diags = GameResult.get_diagonals(board);
+        let rows = this.get_rows(board);
+        let cols = this.get_columns(board);
+        let diags = this.get_diagonals(board);
         let winner = 0;
         
         if (this._win_conditions(rows) === 1) {
@@ -112,7 +112,7 @@ class GameResult {
      * Enthält die derzeitigen Züge der Spieler: 0 entpricht leeres Feld, 1 entspricht Spieler X, 2 entspricht spieler O.
      * @returns {array} - Ein Array welches alle Zeilen des Spielfeldes repräsentiert.
      */
-    static get_rows(board) {
+    get_rows(board) {
         let rows = [];
         board.forEach(element => {rows.push(element.join(""))});
         return rows;
@@ -124,7 +124,7 @@ class GameResult {
      * Enthält die derzeitigen Züge der Spieler: 0 entpricht leeres Feld, 1 entspricht Spieler X, 2 entspricht spieler O.
      * @returns {array} - Ein Array welches alle Spalten des Spielfeldes repräsentiert.
      */
-    static get_columns(board) {
+    get_columns(board) {
         let cols = [];
         let col1 = [];
         let col2 = [];
@@ -151,7 +151,7 @@ class GameResult {
      * Enthält die derzeitigen Züge der Spieler: 0 entpricht leeres Feld, 1 entspricht Spieler X, 2 entspricht spieler O.
      * @returns {array} - Ein Array welches alle Diagonalen des Spielfeldes repräsentiert.
      */
-    static get_diagonals(board) {
+    get_diagonals(board) {
         let diags = [];
         let diag1 = [board[0][0].toString(), board[1][1].toString(), board[2][2].toString()];
         let diag2 = [board[0][2].toString(), board[1][1].toString(), board[2][0].toString()];

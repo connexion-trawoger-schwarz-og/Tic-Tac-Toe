@@ -1,9 +1,10 @@
 "use strict";
+import { board, gameResult } from "../main.js";
 /**
  * Diese Klasse stellte alle Methoden zur Verfügung, die für die Win-Animation benötigt werden.
  * Die Win-Animation färbt die drei Felder, die zum Sieg geführt haben, in einem gegebenen Intervall neu ein.
  */
-class RandomColorAnimation {
+export default class RandomColorAnimation {
     /**
      * Der Konstruktor erstell beim Instanziieren die Variable intervalID, welche zum beenden der Animation benötigt wird. 
      */
@@ -72,7 +73,7 @@ class RandomColorAnimation {
             return result;
         } // END of function getWinningSpaces();
 
-        switch (winner) {
+        switch (gameResult.getGameResult(board._board)) {
             case 0:
                 document.querySelectorAll(".spaces").forEach(space => {
                     space.style.background = chooseRandomColorFrom(colorPool);

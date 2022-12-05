@@ -1,12 +1,13 @@
 "use strict";
+import { gameResult, computer, randomColorAnimation } from "../main.js";
 /**
  * Die Klasse stellt alle Methoden zur Verfügung, die für die generelle Abwicklung des Spiels 
  * benötigt werden.
  */
-class Board {
+export default class Board {
 
     /**
-     * Der Konstruktor erstellt bei Instanziierung der Klasse "Board" die Ergebnismatrix (this._borad) als Repräsentation
+     * Der Konstruktor erstellt bei Instanziierung der Klasse "Board" die Ergebnismatrix (this._board) als Repräsentation
      * des Spielfeldes und alle weiteren Variablen, die für die Methoden der Klasse benötigten werden.
      */
     constructor() {
@@ -140,19 +141,19 @@ class Board {
                 let choiceEasy = computer.easyChooseSpace();
                 document.getElementById(choiceEasy).innerHTML = "O";
                 document.getElementById(choiceEasy).style.color = "#C70554";
-                this.writeToBoard(board._board, choiceEasy, this.player);
+                this.writeToBoard(this._board, choiceEasy, this.player);
                 break;
             case "normal":
                 let choiceNormal = computer.normalChooseSpace();
                 document.getElementById(choiceNormal).innerHTML = "O";
                 document.getElementById(choiceNormal).style.color = "#C70554";
-                this.writeToBoard(board._board, choiceNormal, this.player);
+                this.writeToBoard(this._board, choiceNormal, this.player);
                 break;
             case "godlike":
                 let choiceGodlike = computer.godlikeChooseSpace(this._board, this.player).id;
                 document.getElementById(choiceGodlike).innerHTML = "O";
                 document.getElementById(choiceGodlike).style.color = "#C70554";
-                this.writeToBoard(board._board, choiceGodlike, this.player);
+                this.writeToBoard(this._board, choiceGodlike, this.player);
                 break;
             default:
                 break;
