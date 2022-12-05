@@ -1,16 +1,19 @@
 "use strict";
-import Board from "./classes/Board.js";
-import GameResult from "./classes/GameResult.js";
-import Computer from "./classes/Computer.js";
+// Import of needed modules
+import Board                from "./classes/Board.js";
+import GameResult           from "./classes/GameResult.js";
+import Computer             from "./classes/Computer.js";
 import RandomColorAnimation from "./classes/RandomColorAnimation.js";
 
 
 let winner = -1;
 
 /**
- * Instanzierung aller Klassen:
+ * Instantiation of all classes:
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * their export is handled at the end of the file
  */
+// const board = new Board();
 const board = new Board();
 const gameResult = new GameResult();
 const randomColorAnimation = new RandomColorAnimation();
@@ -18,7 +21,7 @@ const computer = new Computer();
 
 
 /**
- * Selektierungen der Elemente des Menu-Overlays:
+ * Selections of menu-overlay elements:
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 const overlay = document.querySelector(".overlay");
@@ -32,23 +35,23 @@ const closeMenu = document.querySelector("#bt-cancel");
 
 
 /**
- * Selektierung der Buttons in der Game-Area:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Selections of menu-overlay elements:
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 const newGame = document.querySelector("#bt-new-game");
 const menu = document.querySelector("#bt-menu");
 
 
 /**
- * Click Events für Buttons im Menu-Overlay:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Click events of buttons in menu-overlay:
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-// Dieser Button schließt das Menu-Overlay
+// Button closes the menu-overlay
 closeMenu.addEventListener("click", () => {
     overlay.style.display = "none";
 });
 
-// Dieser Button toggelt das Untermenü zur Auswahl der Schwierigkeitsstufen des Computergegners
+// Button toggles submenu for choosing the computer's difficulty 
 computerButton.addEventListener("click", () => {
     if (difficulty.style.visibility === "hidden") {
         difficulty.style.visibility = "visible";
@@ -57,9 +60,8 @@ computerButton.addEventListener("click", () => {
     }
 });
 
-// Dieser Button setzt den Computer auf true, setzt die Schwierigkeit auf "easy",
-// setzt die Total Wins aller Spieler auf 0 zurück und setzt das gesamte Spiel auf Anfang zurück,
-// schleißt das Menu-Overlay und stoppt die Winanimation.
+// Button activates computer as opponent with difficulty of "easy",
+// resets total wins of all players back to 0 and resets the game, closes menu-overlay and stops win animation.
 easy.addEventListener("click", () => {
     board.setStart(true);
     board.setComputer(true);
@@ -70,9 +72,8 @@ easy.addEventListener("click", () => {
     randomColorAnimation.stopRepeatFunction();
 });
 
-// Dieser Button setzt den Computer auf true, setzt die Schwierigkeit auf "normal",
-// setzt die Total Wins aller Spieler auf 0 zurück und setzt das gesamte Spiel auf Anfang zurück,
-// schleißt das Menu-Overlay und stoppt die Winanimation.
+// Button activates computer as opponent with difficulty of "normal",
+// resets total wins of all players back to 0 and resets the game, closes menu-overlay and stops win animation.
 normal.addEventListener("click", () => {
     board.setStart(true);
     board.setComputer(true);
@@ -83,9 +84,8 @@ normal.addEventListener("click", () => {
     randomColorAnimation.stopRepeatFunction();
 });
 
-// Dieser Button setzt den Computer auf true, setzt die Schwierigkeit auf "godlike",
-// setzt die Total Wins aller Spieler auf 0 zurück, setzt das gesamte Spiel auf Anfang zurück,
-// schleißt das Menu-Overlay und stoppt die Winanimation.
+// Button activates computer as opponent with difficulty of "godlike",
+// resets total wins of all players back to 0 and resets the game, closes menu-overlay and stops win animation.
 godlike.addEventListener("click", () => {
     board.setStart(true);
     board.setComputer(true);
@@ -96,8 +96,8 @@ godlike.addEventListener("click", () => {
     randomColorAnimation.stopRepeatFunction();
 });
 
-// Dieser Button setzt den computer auf false, setzt die Total Wins aller Spieler auf 0 zurück,
-// setzt das gesamte Spiel auf Anfang zurück, schließt das Menu-Overlay und stoppt die Winanimation.
+// Button deactivates computer opponent (=activating human opponent), 
+// resets total wins of all players back to 0 and resets the game, closes menu-overlay and stops win animation.
 human.addEventListener("click", () => {
     board.setStart(true);
     board.setComputer(false);
@@ -109,26 +109,27 @@ human.addEventListener("click", () => {
 
 
 /**
- * Click Events für alle Felder (=Spaces) auf dem Spielfeld (=Board):
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Click events for all spaces on the board:
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 board.spaces.forEach(space => {
     space.addEventListener("click", (event) => {
         
-        // Verhindern, dass auf ein Feld gesetzt werden kann: 
+        // prevent moving on a space 
         if (space.innerHTML === "X" || 
-            space.innerHTML === "O" ||                              // wenn das Feld bereits besetzt ist
-            [1, 2].includes(gameResult.getGameResult(board._board)) // oder wenn ein Gewinner feststeht
+            space.innerHTML === "O" ||                              // if space is not empty
+            [1, 2].includes(gameResult.getGameResult(board._board)) // or if there is a winner
             ) return
-        // Wenn der Spieler keinen Gegner gewählt hat, wird beim Klick auf ein Feld das Menü wieder geöffnet
+        // opening the menu-overlay instead of setting the player´s symbol if player didn´t choose an opponent
         else if (board.start === false) {
             overlay.removeAttribute("style");
             difficulty.style.visibility = "hidden";
         }
 
-        // Computer als Gegner:
-        // Spieler X beginnt und setzt seinen Zug. Dieser Wird in die Ergebnismatrix eingetragen.
-        // Danach wird der Spieler gewechselt und der Spieler, welcher nun an der Reihe ist im Game-Display angezeigt.
+        // Opponent: COMPUTER
+        //===================
+        // Player X starts the game. Move is being written into the _board array (= representation of the board as a multidimensional array)
+        // Switch player and show active player in game display
         if (board.computer) {
             board.playerSetSymbol(space);
             let id = board.getElementId(event);
@@ -136,17 +137,18 @@ board.spaces.forEach(space => {
             board.switchPlayer();
             board.displayPlayer();
 
-            // Wenn noch kein Gewinner feststeht, ist der Computer nun an der Reihe und setzt sein Symbol.
-            // Danach wird der Spieler gewechselt und der Spieler, welcher nun an der Reihe ist im Game-Display angezeigt.
+            // If there is no winner yet it is the computer's turn who will make his move.
+            // Switch player and show active player in game display 
             if (gameResult.getGameResult(board._board) === -1) {
                 board.computerSetSymbol();
                 board.switchPlayer();
                 board.displayPlayer();
             }
 
-        // Mensch als Gegner:
-        // Spieler X beginnt und setzt seinen Zug. Dieser wird in die Ergebnismatrix eingetragen.
-        // Danach wird der Spieler gewechselt und der Spieler, welcher nun an der Reihe ist im Game-Display angezeigt.
+        // Opponent: HUMAN
+        //================
+        // Player X starts the game. Move is being written into the _board array (= representation of the board as a multidimensional array)
+        // Switch player and show active player in game display 
         } else {
             board.playerSetSymbol(space);
             let id = board.getElementId(event);
@@ -155,15 +157,14 @@ board.spaces.forEach(space => {
             board.displayPlayer();
         }
 
-        // Wenn ein Gewinner feststeht wird dieser im Game-Display angezeigt und die Total Wins beider Spieler angezeigt. 
+        // If there is a winner show the winner in the game display and update total win count 
         winner = gameResult.getGameResult(board._board);
         if (winner !== -1) {
             board.displayGameResult(winner);
             board.displayTotalWins(winner);
         }
 
-        // Falls das Spiel noch nicht begonnen hat, weil der Spieler noch keinen Gegner gewählt hat,
-        // wird das Symbol wieder entfernt.
+        // If the game hasn't startet yet because the player didn't choose an opponent yet, remove the symbol from the space
         if (board.start === false) {
             space.innerHTML = "";
             board.resetTotalWins();
@@ -174,19 +175,21 @@ board.spaces.forEach(space => {
 
 
 /**
- * Click Events für Buttons in der Game-Area:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Click events for bottons in game area:
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-// Dieser Button stoppt die Win-Animation und setzt das gesamte Spiel auf Anfang zurück.
+// Button stops win animation and resets the game
 newGame.addEventListener("click", () => {
     randomColorAnimation.stopRepeatFunction();
     board.resetGame();
 })
 
-// Dieser Button öffnet das Menu-Overlay
+// Button opens menu overlay
  menu.addEventListener("click", () => {
     overlay.removeAttribute("style");
     difficulty.style.visibility = "hidden";
 });
 
+
+// exporting instantiation of classes
 export {board, gameResult, computer, randomColorAnimation};
